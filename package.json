@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --open",
+    "start:cordova:browser": "\"npm run build:cordova && cd cordova && cordova run browser\" --watch",
+    "start:cordova:android": "\"npm run build:cordova && cd cordova && cordova run android\" --watch",
+    "build:cordova": "rmdir-cli cordova/www/ && ng build --output-path=cordova/www/",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -43,6 +46,7 @@
     "protractor": "~5.4.3",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
-    "typescript": "~3.8.3"
+    "typescript": "~3.8.3",
+    "rmdir-cli": "^2.0.6"
   }
 }
