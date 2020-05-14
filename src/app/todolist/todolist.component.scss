@@ -23,6 +23,7 @@
 }
 
 .todo-list {
+  min-height: 50%;
   font-size: 100%;
   list-style: none;
   width: 100%;
@@ -80,6 +81,14 @@
       transition: transform 0.5s cubic-bezier(0.55, 0, 0.1, 1);
     }
   }
+
+  &__description {
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: darkgray;
+  }
   &.todo--completed {
     &:after {
       opacity: 1;
@@ -132,6 +141,54 @@
   width: 100%;
   position: relative;
   margin: 2rem 0;
+  &__btn {
+    text-align: center;
+    color: #fafafa;
+    line-height: 1;
+    position: absolute;
+    font-size: 150%;
+    right: 0;
+    top: 50%;
+    border-radius: 50%;
+    width: 55px;
+    height: 55px;
+    background: #2ecc71;
+    opacity: 0;
+    transform: translate(0, -50%) scale(0) rotate(180deg);
+    transition: transform, opacity, 0.5s cubic-bezier(0.87, -0.41, 0.19, 1.44);
+    &:focus {
+      opacity: 1;
+      transform: translate(50%, -50%) scale(1.1) rotate(0deg);
+    }
+    &:active {
+      opacity: 1;
+      transition: transform, opacity, 0.1s cubic-bezier(0.87, -0.41, 0.19, 1.44);
+      transform: translate(50%, -50%) scale(0.95) rotate(0deg);
+    }
+  }
+  &__input {
+    width: 100%;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    background: #e8ebed;
+    margin: 0;
+    outline: 0;
+    border: 2px solid #e8ebed;
+    transition: background 0.25s ease-out;
+    &:focus {
+      background: none;
+    }
+  }
+  &__input:focus + &__btn {
+    opacity: 1;
+    transform: translate(50%, -50%) scale(1) rotate(0deg);
+  }
+}
+
+.search-todo {
+  width: 100%;
+  position: relative;
+  margin-top: 2rem;
   &__btn {
     text-align: center;
     color: #fafafa;
