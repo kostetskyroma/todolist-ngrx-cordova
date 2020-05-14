@@ -1,24 +1,32 @@
 import { NgModule } from '@angular/core';
-import { NoPreloading, RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
-import { AppComponent } from './app.component';
+import { LoginComponent } from './login/login.component';
+import { TodolistComponent } from './todolist/todolist.component';
+import { ProfileComponent } from './profile/profile.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: AppComponent,
+    component: TodolistComponent,
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent,
+  },
+  {
+    path: '**',
+    component: NotFoundComponent,
   },
 ];
 
 @NgModule({
   exports: [RouterModule],
-  imports: [
-    RouterModule.forRoot(routes, {
-      preloadingStrategy: NoPreloading,
-      onSameUrlNavigation: 'reload',
-      paramsInheritanceStrategy: 'always',
-      relativeLinkResolution: 'corrected',
-    }),
-  ],
+  imports: [RouterModule.forRoot(routes)],
 })
 export class AppRoutingModule {}

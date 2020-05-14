@@ -1,9 +1,11 @@
 <header class="header">
-  <span class="header__title">Todo app</span>
+  <span class="header__title" routerLink="/">Todo app</span>
   <span class="header__icon">
-    <i class="fa fa-user-circle-o"></i>
+    <span class="profile">
+      <i class="fa fa-user-circle-o" routerLink="/profile"></i>
+    </span>
+    <span class="sign-out" (click)="signOut()">
+      <i class="fa fa-sign-out"></i>
+    </span>
   </span>
-  <!--  <span>-->
-  <!--    <i class="fa fa-sign-out"></i>-->
-  <!--  </span>-->
 </header>
