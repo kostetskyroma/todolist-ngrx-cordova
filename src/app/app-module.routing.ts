@@ -5,7 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { TodolistComponent } from './todolist/todolist.component';
 import { ProfileComponent } from './profile/profile.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { RegistrationComponent } from './registration/registration.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { ProfileResolver } from './profile/profile.resolver';
 
@@ -13,23 +13,23 @@ const routes: Routes = [
   {
     path: '',
     component: TodolistComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'profile',
     component: ProfileComponent,
     canActivate: [AuthGuard],
     resolve: {
-      user: ProfileResolver
-    }
+      user: ProfileResolver,
+    },
   },
   {
     path: 'login',
     component: LoginComponent,
   },
   {
-    path: 'register',
-    component: RegistrationComponent,
+    path: 'sign-up',
+    component: SignUpComponent,
   },
   {
     path: '**',

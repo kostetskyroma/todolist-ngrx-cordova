@@ -18,7 +18,7 @@ import { AuthenticationService } from './core/services/authentication.service';
 import { UserService } from './core/services/user.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AlertComponent } from './alert/alert.component';
-import { RegistrationComponent } from './registration/registration.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
 
 @NgModule({
   declarations: [
@@ -29,13 +29,13 @@ import { RegistrationComponent } from './registration/registration.component';
     ProfileComponent,
     NotFoundComponent,
     AlertComponent,
-    RegistrationComponent,
+    SignUpComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [
     AuthGuard,
@@ -44,7 +44,11 @@ import { RegistrationComponent } from './registration/registration.component';
     UserService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: FakeBackendInterceptor, multi: true },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: FakeBackendInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })

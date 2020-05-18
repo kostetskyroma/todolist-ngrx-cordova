@@ -6,11 +6,11 @@ import { first } from 'rxjs/operators';
 import { AlertService } from '../core/services/alert.service';
 
 @Component({
-  selector: 'app-registration',
-  templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.scss'],
+  selector: 'app-sign-up',
+  templateUrl: './sign-up.component.html',
+  styleUrls: ['./sign-up.component.scss'],
 })
-export class RegistrationComponent implements OnInit {
+export class SignUpComponent implements OnInit {
   form = this.formBuilder.group({
     firstname: ['', Validators.required],
     lastname: ['', Validators.required],
@@ -36,7 +36,7 @@ export class RegistrationComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {
-          this.alertService.success('Successfully registered');
+          this.alertService.success('Successfully signed-up');
           this.router.navigate(['/login']);
         },
         (error) => {
