@@ -1,15 +1,38 @@
 <div class="todo-app">
   <h1 class="todo-title">Todo list</h1>
-  <div class="search-todo">
+  <div class="search">
     <input
-      class="search-todo__input"
+      class="search__input"
       placeholder="Search"
       name="search-todo"
       [(ngModel)]="filter.search"
     />
-    <button class="search-todo__btn">
+    <button class="search__btn">
       <i class="fa fa-search"></i>
     </button>
+  </div>
+  <div class="filters">
+    <div
+      class="filter all"
+      [class.selected]="filter.time === 'all'"
+      (click)="filterByTime('all')"
+    >
+      All
+    </div>
+    <div
+      class="filter month"
+      [class.selected]="filter.time === 'month'"
+      (click)="filterByTime('month')"
+    >
+      Month
+    </div>
+    <div
+      class="filter week"
+      [class.selected]="filter.time === 'week'"
+      (click)="filterByTime('week')"
+    >
+      Week
+    </div>
   </div>
   <ul class="todo-list">
     <li
@@ -35,38 +58,9 @@
       </div>
     </li>
   </ul>
-  <div class="add-todo">
-    <input
-      class="add-todo__input"
-      name="add"
-      [(ngModel)]="todo"
-      placeholder="ex. Make a dentist appointment"
-    />
-    <button class="add-todo__btn" (click)="add(todo)">
+  <div class="create">
+    <button class="create__btn" (click)="add(todo)">
       <i class="fa fa-plus"></i>
     </button>
-  </div>
-  <div class="filters">
-    <div
-      class="filter all"
-      [class.selected]="filter.time === 'all'"
-      (click)="filterByTime('all')"
-    >
-      All
-    </div>
-    <div
-      class="filter month"
-      [class.selected]="filter.time === 'month'"
-      (click)="filterByTime('month')"
-    >
-      Month
-    </div>
-    <div
-      class="filter week"
-      [class.selected]="filter.time === 'week'"
-      (click)="filterByTime('week')"
-    >
-      Week
-    </div>
   </div>
 </div>
