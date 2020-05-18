@@ -27,6 +27,15 @@ ul {
   outline: none;
 }
 
+input,
+button {
+  width: 100%;
+  border-radius: 5px;
+  background: #e8ebed;
+  outline: 0;
+  border: 2px solid #e8ebed;
+}
+
 i {
   line-height: 1;
   vertical-align: middle;

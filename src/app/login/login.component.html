@@ -1,3 +1,21 @@
-<div class="login">
+<form class="login" [formGroup]="form" (ngSubmit)="onSubmit()">
   <h1 class="login-title">Login</h1>
-</div>
+  <input
+    type="text"
+    formControlName="username"
+    class="username"
+    placeholder="Username"
+    autocomplete="off"
+  />
+  <input
+    type="password"
+    formControlName="password"
+    class="password"
+    placeholder="Password"
+    autocomplete="off"
+  />
+  <button type="submit" class="login-button">Login</button>
+  <a [routerLink]="['/register']" class="register-link"
+    >You are not registered?</a
+  >
+</form>

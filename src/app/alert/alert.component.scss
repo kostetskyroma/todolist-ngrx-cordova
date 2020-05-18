@@ -1,0 +1,23 @@
+.alert {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  background: white;
+  color: white;
+  border-radius: 0;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  line-height: 26px;
+  padding: .75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+}
+
+.alert-success {
+  background: green;
+}
+
+.alert-error {
+  background: red;
+}

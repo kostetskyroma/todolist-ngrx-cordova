@@ -1,7 +1,3 @@
-input {
-  display: block;
-}
-
 .login {
   height: calc(100% - 64px); // 32px = header x 2
   background: #fafafa;
@@ -15,5 +11,15 @@ input {
   .login-title {
     margin-top: 0;
     line-height: 1;
+  }
+
+  .username, .password, .login-button {
+    padding: 0.5rem 1rem;
+    margin: 0.5rem 0;
+  }
+
+  .register-link {
+    padding: .5rem;
+    font-size: 12px;
   }
 }

@@ -1,11 +1,11 @@
 <header class="header">
   <span class="header__title" routerLink="/">Todo app</span>
   <span class="header__icon">
-    <span class="profile">
+    <span class="profile" *ngIf="isLoggedIn">
       <i class="fa fa-user-circle-o" routerLink="/profile"></i>
     </span>
-    <span class="sign-out" (click)="signOut()">
-      <i class="fa fa-sign-out"></i>
+    <span class="sign-out" (click)="signOut()" *ngIf="isLoggedIn">
+      <i class="fa fa-sign-out" routerLink="/login"></i>
     </span>
   </span>
 </header>
