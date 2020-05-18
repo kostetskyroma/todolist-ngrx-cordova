@@ -17,7 +17,10 @@ import {
 })
 export class TodolistComponent implements OnInit {
   public todos$: Observable<TodoItem[]> = this.store$.pipe(select(selectTodos));
-  public selectedFilter = 'all';
+  public filter = {
+    search: '',
+    time: 'all',
+  };
   public todo: string;
 
   constructor(
@@ -27,8 +30,8 @@ export class TodolistComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  filter(by: string) {
-    this.selectedFilter = by;
+  filterByTime(by: string) {
+    this.filter.time = by;
   }
 
   delete(id: number) {
@@ -40,14 +43,9 @@ export class TodolistComponent implements OnInit {
   }
 
   add(todo: string) {
-    this.store$.dispatch(new CreateTodoAction({ title: todo, done: false }));
+    this.store$.dispatch(
+      new CreateTodoAction({ title: todo, done: false, dueDate: new Date() })
+    );
     this.todo = '';
-  }
-
-  search() {}
-
-  onSearch($event: Event) {
-    const value = ($event?.target as HTMLInputElement).value;
-    console.log(value);
   }
 }

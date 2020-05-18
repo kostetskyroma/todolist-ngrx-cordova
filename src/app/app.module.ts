@@ -26,6 +26,7 @@ import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { TodoEffects } from './store/effects/todo.effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { TodolistPipe } from './todolist/todolist.pipe';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
     NotFoundComponent,
     AlertComponent,
     SignUpComponent,
+    TodolistPipe,
   ],
   imports: [
     BrowserModule,

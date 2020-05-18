@@ -63,6 +63,7 @@ $white: #fafafa;
     &__remove {
       display: grid;
       align-content: space-evenly;
+      justify-content: end;
     }
 
     &.completed {

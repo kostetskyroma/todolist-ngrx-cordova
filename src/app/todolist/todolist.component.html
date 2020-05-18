@@ -5,9 +5,9 @@
       class="search-todo__input"
       placeholder="Search"
       name="search-todo"
-      (change)="onSearch($event)"
+      [(ngModel)]="filter.search"
     />
-    <button class="search-todo__btn" (click)="search()">
+    <button class="search-todo__btn" (click)="search(filter.search)">
       <i class="fa fa-search"></i>
     </button>
   </div>
@@ -15,7 +15,11 @@
     <li
       class="todo"
       [class.completed]="todo.done === true"
-      *ngFor="let todo of todos$ | async"
+      *ngFor="
+        let todo of todos$
+          | async
+          | todolist: filter.search:filter.time || 'all'
+      "
     >
       <div class="todo__done">
         <a href="#" (click)="complete(todo.id)"><i class="fa fa-check"></i></a>
@@ -45,22 +49,22 @@
   <div class="filters">
     <div
       class="filter all"
-      [class.selected]="selectedFilter === 'all'"
-      (click)="filter('all')"
+      [class.selected]="filter.time === 'all'"
+      (click)="filterByTime('all')"
     >
       All
     </div>
     <div
       class="filter month"
-      [class.selected]="selectedFilter === 'month'"
-      (click)="filter('month')"
+      [class.selected]="filter.time === 'month'"
+      (click)="filterByTime('month')"
     >
       Month
     </div>
     <div
       class="filter week"
-      [class.selected]="selectedFilter === 'week'"
-      (click)="filter('week')"
+      [class.selected]="filter.time === 'week'"
+      (click)="filterByTime('week')"
     >
       Week
     </div>
