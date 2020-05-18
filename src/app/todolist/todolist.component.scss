@@ -1,3 +1,8 @@
+$blue: #3498db;
+$red: #e74c3c;
+$green: #2ecc71;
+$white: #fafafa;
+
 :host {
   width: inherit;
   height: inherit;
@@ -6,7 +11,7 @@
 .todo-app {
   width: inherit;
   height: calc(100% - 64px); // 32px = header x 2
-  background: #fafafa;
+  background: $white;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -14,127 +19,99 @@
   border-radius: 5px;
   box-shadow: 0 0 5px rgba(25, 25, 25, 0.25);
   padding: 3rem;
-}
 
-.todo-title {
-  margin-bottom: auto;
-  margin-top: 0;
-  line-height: 1;
-}
-
-.todo-list {
-  min-height: 50%;
-  font-size: 100%;
-  list-style: none;
-  width: 100%;
-  overflow-x: hidden;
-  margin-top: 2rem;
-}
-
-.todo {
-  line-height: 1.5;
-  position: relative;
-  padding: 0 2.5rem 0 0.75rem;
-  transition: transform 0.5s cubic-bezier(0.55, 0, 0.1, 1);
-  &:after {
-    font-family: FontAwesome;
-    content: "\f00c";
-    position: absolute;
-    right: 0.75rem;
-    color: #2ecc71;
-    opacity: 0;
-    transform: scale(0);
-    transition: transform, opacity, 0.25s cubic-bezier(0.55, 0, 0.1, 1);
+  .todo-title {
+    margin-bottom: auto;
+    margin-top: 0;
+    line-height: 1;
   }
-  & + .todo {
+
+  .todo-list {
+    min-height: 50%;
+    font-size: 100%;
+    list-style: none;
+    width: 100%;
+    overflow-x: hidden;
+    margin-top: 2rem;
+  }
+
+  .todo {
+    line-height: 1.5;
+    transition: transform 0.5s cubic-bezier(0.55, 0, 0.1, 1);
     margin-top: 1rem;
-    padding-top: 1rem;
-    &:before {
-      content: "";
-      background: #e8ebed;
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      border-radius: 2px;
-    }
-  }
-  &__content {
-    position: relative;
-    opacity: 1;
-    text-transform: capitalize;
     cursor: pointer;
-    transition: opacity 0.25s ease-out;
-    &:after {
-      content: "";
-      position: absolute;
-      display: block;
-      width: calc(100% + 0.5em);
-      left: -0.25em;
-      height: 2px;
-      top: 50%;
-      border-radius: 1px;
-      background: #2e2e2e;
-      transform-origin: center right;
-      transform: scaleX(0);
-      transition: transform 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+    display: grid;
+    grid-template-columns: 10% 80% 10%;
+
+    &__title {
+      text-transform: capitalize;
+    }
+
+    &__description {
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: darkgray;
+    }
+
+    &__done {
+      display: grid;
+      align-content: space-evenly;
+    }
+
+    &__remove {
+      display: grid;
+      align-content: space-evenly;
+    }
+
+    &.completed {
+      text-decoration: line-through;
+    }
+
+    .fa-list-ul {
+      color: $blue;
+    }
+    .fa-times {
+      color: $red;
+    }
+    .fa-check {
+      color: $green;
     }
   }
 
-  &__description {
-    font-size: 12px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: darkgray;
-  }
-  &.todo--completed {
-    &:after {
-      opacity: 1;
-      transform: scale(1);
+  .filters {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+
+    .selected {
+      background: $blue;
+      color: $white;
     }
-    .todo__content {
-      opacity: 0.5;
-      &:after {
-        transform: scaleX(1);
-        transform-origin: center left;
-      }
+
+    .filter {
+      border: 1px solid $blue;
+      text-align: center;
+      padding: 0.5rem;
+      cursor: pointer;
+    }
+
+    .all {
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+    }
+
+    .month {
+      border-right: 0;
+      border-left: 0;
+    }
+
+    .week {
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
     }
   }
-}
-
-.todo-enter {
-  opacity: 0;
-  padding-top: 0;
-  margin-top: 0;
-  max-height: 0;
-  transform: translateX(-100%);
-  transition: opacity 500ms ease-out,
-    transform 750ms cubic-bezier(0.87, -0.41, 0.19, 1.44),
-    max-height 500ms ease-out, padding 500ms ease-out, margin 500ms ease-out;
-}
-
-.todo-enter.todo-enter-active {
-  opacity: 1;
-  max-height: 100px;
-  transform: translateX(0);
-}
-
-.todo-leave {
-  opacity: 1;
-  transform: translateX(0);
-  transition: opacity 500ms ease-out,
-    transform 750ms cubic-bezier(0.87, -0.41, 0.19, 1.44),
-    max-height 500ms ease-out, padding 500ms ease-out, margin 500ms ease-out;
-}
-
-.todo-leave.todo-leave-active {
-  opacity: 0;
-  padding-top: 0;
-  margin-top: 0;
-  max-height: 0;
-  transform: translateX(100%);
 }
 
 .add-todo {
@@ -191,7 +168,7 @@
   margin-top: 2rem;
   &__btn {
     text-align: center;
-    color: #fafafa;
+    color: $white;
     line-height: 1;
     position: absolute;
     font-size: 150%;
@@ -230,30 +207,5 @@
   &__input:focus + &__btn {
     opacity: 1;
     transform: translate(50%, -50%) scale(1) rotate(0deg);
-  }
-}
-
-.filters {
-  .filter__link {
-    margin: 0 1em;
-    font-size: 150%;
-  }
-  .fa-list-ul {
-    color: #3498db;
-  }
-  .fa-times {
-    color: #e74c3c;
-  }
-  .fa-check {
-    color: #2ecc71;
-  }
-  .filter__link i {
-    transition: transform 0.5s cubic-bezier(0.87, -0.41, 0.19, 1.44);
-    &:hover {
-      transform: scale(1.1);
-    }
-    &:active {
-      transform: scale(0.95);
-    }
   }
 }

@@ -1,8 +1,8 @@
 export interface TodoItem {
-  id: number;
+  id?: number;
   title: string;
-  description: string;
-  dueDate: Date;
-  photo: string;
+  description?: string;
+  dueDate?: Date;
+  photo?: string;
   done: boolean;
 }

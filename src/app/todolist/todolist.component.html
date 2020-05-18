@@ -12,10 +12,22 @@
     </button>
   </div>
   <ul class="todo-list">
-    <li class="todo" *ngFor="let todo of todos$ | async">
-      <div class="todo__content">{{ todo.title }}</div>
-      <div class="todo__description">
-        {{ todo.description }}
+    <li
+      class="todo"
+      [class.completed]="todo.done === true"
+      *ngFor="let todo of todos$ | async"
+    >
+      <div class="todo__done">
+        <a href="#" (click)="complete(todo.id)"><i class="fa fa-check"></i></a>
+      </div>
+      <div>
+        <div class="todo__title">{{ todo.title }}</div>
+        <div class="todo__description">
+          {{ todo.description }}
+        </div>
+      </div>
+      <div class="todo__remove">
+        <a href="#" (click)="delete(todo.id)"><i class="fa fa-times"></i></a>
       </div>
     </li>
   </ul>
@@ -23,19 +35,34 @@
     <input
       class="add-todo__input"
       name="add"
+      [(ngModel)]="todo"
       placeholder="ex. Make a dentist appointment"
     />
-    <button class="add-todo__btn" (click)="add()">
+    <button class="add-todo__btn" (click)="add(todo)">
       <i class="fa fa-plus"></i>
     </button>
   </div>
   <div class="filters">
-    <a class="filter__link" href="#" (click)="show()"
-      ><i class="fa fa-list-ul"></i></a
-    ><a class="filter__link" href="#" (click)="remove()"
-      ><i class="fa fa-times"></i></a
-    ><a class="filter__link" href="#" (click)="complete()"
-      ><i class="fa fa-check"></i
-    ></a>
+    <div
+      class="filter all"
+      [class.selected]="selectedFilter === 'all'"
+      (click)="filter('all')"
+    >
+      All
+    </div>
+    <div
+      class="filter month"
+      [class.selected]="selectedFilter === 'month'"
+      (click)="filter('month')"
+    >
+      Month
+    </div>
+    <div
+      class="filter week"
+      [class.selected]="selectedFilter === 'week'"
+      (click)="filter('week')"
+    >
+      Week
+    </div>
   </div>
 </div>

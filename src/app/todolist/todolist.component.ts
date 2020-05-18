@@ -1,6 +1,14 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TodoItem } from './todolist.interface';
 import { TodoListService } from './todolist.service';
+import { Observable } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import { selectTodos } from '../store/selectors/todo.selectors';
+import {
+  CompleteTodoAction,
+  CreateTodoAction,
+  DeleteTodoAction,
+} from '../store/actions/todo.actions';
 
 @Component({
   selector: 'app-todolist',
@@ -8,23 +16,33 @@ import { TodoListService } from './todolist.service';
   styleUrls: ['./todolist.component.scss'],
 })
 export class TodolistComponent implements OnInit {
-  public todos: TodoItem[] = [];
+  public todos$: Observable<TodoItem[]> = this.store$.pipe(select(selectTodos));
+  public selectedFilter = 'all';
+  public todo: string;
 
-  constructor(private readonly todoListService: TodoListService) {}
+  constructor(
+    private readonly todoListService: TodoListService,
+    private readonly store$: Store<TodoItem[]>
+  ) {}
 
   ngOnInit(): void {}
 
-  get todos$() {
-    return this.todoListService.getTodos();
+  filter(by: string) {
+    this.selectedFilter = by;
   }
 
-  show() {}
+  delete(id: number) {
+    this.store$.dispatch(new DeleteTodoAction(id));
+  }
 
-  remove() {}
+  complete(id: number) {
+    this.store$.dispatch(new CompleteTodoAction(id));
+  }
 
-  add() {}
-
-  complete() {}
+  add(todo: string) {
+    this.store$.dispatch(new CreateTodoAction({ title: todo, done: false }));
+    this.todo = '';
+  }
 
   search() {}
 
