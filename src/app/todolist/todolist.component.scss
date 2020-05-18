@@ -179,18 +179,8 @@ $white: #fafafa;
     width: 55px;
     height: 55px;
     background: #2ecc71;
-    opacity: 0;
-    transform: translate(0, -50%) scale(0) rotate(180deg);
-    transition: transform, opacity, 0.5s cubic-bezier(0.87, -0.41, 0.19, 1.44);
-    &:focus {
-      opacity: 1;
-      transform: translate(50%, -50%) scale(1.1) rotate(0deg);
-    }
-    &:active {
-      opacity: 1;
-      transition: transform, opacity, 0.1s cubic-bezier(0.87, -0.41, 0.19, 1.44);
-      transform: translate(50%, -50%) scale(0.95) rotate(0deg);
-    }
+    opacity: 1;
+    transform: translate(50%, -50%) scale(0.95) rotate(0deg);
   }
   &__input {
     width: 100%;
@@ -200,13 +190,8 @@ $white: #fafafa;
     margin: 0;
     outline: 0;
     border: 2px solid #e8ebed;
-    transition: background 0.25s ease-out;
     &:focus {
       background: none;
     }
-  }
-  &__input:focus + &__btn {
-    opacity: 1;
-    transform: translate(50%, -50%) scale(1) rotate(0deg);
   }
 }
