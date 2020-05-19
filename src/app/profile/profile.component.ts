@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, shareReplay } from 'rxjs/operators';
 import { FormBuilder, Validators } from '@angular/forms';
 import { UserService } from '../core/services/user.service';
 import { AlertService } from '../core/services/alert.service';
+
+declare const navigator: any;
 
 @Component({
   selector: 'app-profile',
@@ -17,14 +19,33 @@ export class ProfileComponent implements OnInit {
     lastname: ['', Validators.required],
     username: ['', Validators.required],
     password: ['', Validators.required],
+    photo: [],
   });
 
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private userService: UserService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private changeDetector: ChangeDetectorRef
   ) {}
+
+  takePhoto() {
+    navigator?.camera?.getPicture(
+      (photo) => {
+        this.form.patchValue({ photo });
+        this.changeDetector.detectChanges();
+        console.log(photo);
+      },
+      (err) => {
+        console.log(err);
+      },
+      {
+        sourceType: navigator.camera.PictureSourceType.CAMERA,
+        saveToPhotoAlbum: true,
+      }
+    );
+  }
 
   ngOnInit(): void {
     this.user$.subscribe((user) => {

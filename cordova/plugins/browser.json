@@ -9,6 +9,9 @@
   "installed_plugins": {
     "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "com.eleks.todolist"
+    },
+    "cordova-plugin-camera": {
+      "PACKAGE_NAME": "com.eleks.todolist"
     }
   },
   "dependent_plugins": {}
