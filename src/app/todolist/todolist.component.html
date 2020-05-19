@@ -38,6 +38,7 @@
     <li
       class="todo"
       [class.completed]="todo.done === true"
+      (click)="select(todo)"
       *ngFor="
         let todo of todos$
           | async
@@ -59,7 +60,7 @@
     </li>
   </ul>
   <div class="create">
-    <button class="create__btn" (click)="add(todo)">
+    <button class="create__btn" (click)="add()">
       <i class="fa fa-plus"></i>
     </button>
   </div>

@@ -6,9 +6,10 @@ import { select, Store } from '@ngrx/store';
 import { selectTodos } from '../store/selectors/todo.selectors';
 import {
   CompleteTodoAction,
-  CreateTodoAction,
   DeleteTodoAction,
+  GetAllTodoAction,
 } from '../store/actions/todo.actions';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-todolist',
@@ -21,12 +22,15 @@ export class TodolistComponent implements OnInit {
     search: '',
     time: 'all',
   };
-  public todo: string;
 
   constructor(
     private readonly todoListService: TodoListService,
-    private readonly store$: Store<TodoItem[]>
-  ) {}
+    private readonly store$: Store<TodoItem[]>,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router
+  ) {
+    this.store$.dispatch(new GetAllTodoAction());
+  }
 
   ngOnInit(): void {}
 
@@ -42,10 +46,17 @@ export class TodolistComponent implements OnInit {
     this.store$.dispatch(new CompleteTodoAction(id));
   }
 
-  add(todo: string) {
-    this.store$.dispatch(
-      new CreateTodoAction({ title: todo, done: false, dueDate: new Date() })
-    );
-    this.todo = '';
+  add() {
+    this.router.navigate(['todo'], {
+      relativeTo: this.route,
+      queryParamsHandling: 'preserve',
+    });
+  }
+
+  select(todo: TodoItem) {
+    this.router.navigate([`todo/${todo?.id}`], {
+      relativeTo: this.route,
+      queryParamsHandling: 'preserve',
+    });
   }
 }

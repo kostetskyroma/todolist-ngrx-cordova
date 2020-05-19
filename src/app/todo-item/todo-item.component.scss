@@ -1,4 +1,4 @@
-.login {
+.todo-item {
   height: calc(100% - 64px); // 32px = header x 2
   background: #fafafa;
   display: flex;
@@ -8,20 +8,17 @@
   box-shadow: 0 0 5px rgba(25, 25, 25, 0.25);
   padding: 1rem 2rem;
 
-  .login-title {
+  .todo-item-title {
     margin-top: 0;
     line-height: 1;
   }
 
-  .username,
-  .password,
-  .login-button {
+  .title,
+  .description,
+  .dueDate,
+  .photo,
+  .todo-item-button {
     padding: 0.5rem 1rem;
     margin: 0.5rem 0;
-  }
-
-  .register-link {
-    padding: 0.5rem;
-    font-size: 12px;
   }
 }

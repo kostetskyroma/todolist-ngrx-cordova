@@ -8,11 +8,22 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { ProfileResolver } from './profile/profile.resolver';
+import { TodoItemComponent } from './todo-item/todo-item.component';
 
 const routes: Routes = [
   {
     path: '',
     component: TodolistComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'todo',
+    component: TodoItemComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'todo/:id',
+    component: TodoItemComponent,
     canActivate: [AuthGuard],
   },
   {

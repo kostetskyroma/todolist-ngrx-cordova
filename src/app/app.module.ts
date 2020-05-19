@@ -27,6 +27,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { TodoEffects } from './store/effects/todo.effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { TodolistPipe } from './todolist/todolist.pipe';
+import { TodoItemComponent } from './todo-item/todo-item.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { TodolistPipe } from './todolist/todolist.pipe';
     AlertComponent,
     SignUpComponent,
     TodolistPipe,
+    TodoItemComponent,
   ],
   imports: [
     BrowserModule,
