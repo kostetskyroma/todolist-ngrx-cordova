@@ -8,5 +8,16 @@ if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+const bootstrapApp = () => {
+  platformBrowserDynamic()
+    .bootstrapModule(AppModule)
+    .catch((err) => console.error(err));
+};
+
+if (window['cordova']) {
+  console.log('[Cordova found]');
+  document.addEventListener('deviceready', () => bootstrapApp());
+} else {
+  console.log('[Cordova not found]');
+  bootstrapApp();
+}
