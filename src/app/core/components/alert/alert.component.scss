@@ -1,10 +1,12 @@
+@import "variables/colors";
+
 .alert {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  background: white;
-  color: white;
+  background: $white;
+  color: $white;
   border-radius: 0;
   font-size: 14px;
   font-weight: 400;
@@ -16,9 +18,9 @@
 }
 
 .alert-success {
-  background: green;
+  background: $green;
 }
 
 .alert-error {
-  background: red;
+  background: $red;
 }

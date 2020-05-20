@@ -10,7 +10,7 @@ import {
   LoginSuccessAction,
 } from '../actions/auth.actions';
 import { User } from '../../core/interfaces/user';
-import { AlertService } from '../../core/services/alert.service';
+import { AlertService } from '../../core/components/alert/alert.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Injectable()
@@ -39,7 +39,7 @@ export class AuthEffects {
           JSON.stringify(action.payload)
         );
       }
-      setTimeout(() => this.router.navigateByUrl(url), 1500);
+      this.router.navigateByUrl(url);
     })
   );
 

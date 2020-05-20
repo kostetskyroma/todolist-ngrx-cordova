@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import url("https://fonts.googleapis.com/css2?family=Varela+Round&display=swap");
+@import "shared/styles/index";
 
 html {
   -webkit-font-smoothing: antialiased;
@@ -33,15 +34,15 @@ textarea,
 button {
   width: 100%;
   border-radius: 5px;
-  background: #e8ebed;
+  background: $white;
   outline: 0;
   padding: 0.5rem 1rem;
-  border: 2px solid #e8ebed;
+  border: 2px solid $light-grey;
 }
 
 input {
   &:focus {
-    background: #fafafa;
+    background: $white;
   }
 }
 
@@ -58,7 +59,7 @@ body {
 
 body {
   font-family: "Varela Round", sans-serif;
-  color: #2e2e2e;
+  color: $black;
   font-size: 18px;
   line-height: 1.5;
 }

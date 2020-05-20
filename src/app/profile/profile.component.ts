@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { map, shareReplay } from 'rxjs/operators';
 import { FormBuilder, Validators } from '@angular/forms';
 import { UserService } from '../core/services/user.service';
-import { AlertService } from '../core/services/alert.service';
+import { AlertService } from '../core/components/alert/alert.service';
 
 declare const navigator: any;
 

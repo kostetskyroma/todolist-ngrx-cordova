@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../core/services/user.service';
 import { first } from 'rxjs/operators';
-import { AlertService } from '../core/services/alert.service';
+import { AlertService } from '../core/components/alert/alert.service';
 
 @Component({
   selector: 'app-sign-up',

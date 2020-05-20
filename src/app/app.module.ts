@@ -13,11 +13,11 @@ import { FakeBackendInterceptor } from './core/interceptors/fake-backend.interce
 import { TokenInterceptor } from './core/interceptors/token.interceptor';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { AuthGuard } from './core/guards/auth.guard';
-import { AlertService } from './core/services/alert.service';
 import { AuthenticationService } from './core/services/authentication.service';
 import { UserService } from './core/services/user.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AlertComponent } from './alert/alert.component';
+import { AlertComponent } from './core/components/alert/alert.component';
+import { AlertService } from './core/components/alert/alert.service';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { metaReducers, reducers } from './store/state/app.state';
 import { StoreModule } from '@ngrx/store';
