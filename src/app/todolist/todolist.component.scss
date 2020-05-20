@@ -126,6 +126,7 @@
       height: 55px;
       font-size: 125%;
       border-radius: 50%;
+      border: 0;
     }
   }
 
@@ -147,6 +148,7 @@
       background: $green;
       opacity: 1;
       transform: translate(50%, -50%) scale(0.95) rotate(0deg);
+      border: 0;
     }
     &__input {
       width: 100%;

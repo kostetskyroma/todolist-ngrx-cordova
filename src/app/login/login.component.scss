@@ -1,25 +1,9 @@
 @import "variables/colors";
 
 .login {
-  height: calc(100% - 64px); // 32px = header x 2
-  background: $white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-radius: 5px;
-  box-shadow: 0 0 5px rgba(25, 25, 25, 0.25);
-  padding: 1rem 2rem;
-
   .login-title {
     margin-top: 0;
     line-height: 1;
-  }
-
-  .username,
-  .password,
-  .login-button {
-    padding: 0.5rem 1rem;
-    margin: 0.5rem 0;
   }
 
   .register-link {

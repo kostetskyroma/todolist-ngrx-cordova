@@ -1,13 +1,5 @@
 @import "variables/colors";
 
 .not-found {
-  height: calc(100% - 64px); // 32px = header x 2
-  background: $white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-radius: 5px;
-  box-shadow: 0 0 5px rgba(25, 25, 25, 0.25);
-  padding: 1rem 2rem;
   justify-content: center;
 }

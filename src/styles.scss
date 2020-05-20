@@ -16,34 +16,35 @@ html {
 }
 
 input,
-textarea,
-button,
-ul {
-  margin: 0;
-  border: 0;
-  padding: 0;
-  display: inline-block;
-  vertical-align: middle;
-  white-space: normal;
-  background: none;
-  outline: none;
-}
-
-input,
-textarea,
-button {
+textarea {
+  display: block;
   width: 100%;
+  padding: $spacing-3;
+  margin: $spacing-2;
+  font-weight: bold;
+  font-family: $font;
+  white-space: normal;
+  outline: none;
   border-radius: 5px;
   background: $white;
-  outline: 0;
-  padding: 0.5rem 1rem;
   border: 2px solid $light-grey;
+  font-size: 0.88rem;
 }
 
-input {
-  &:focus {
-    background: $white;
-  }
+button {
+  display: block;
+  width: 100%;
+  padding: $spacing-3;
+  margin: $spacing-2;
+  font-weight: bold;
+  font-family: $font;
+  white-space: normal;
+  outline: none;
+  border-radius: 5px;
+  background: $black;
+  border: 2px solid $black;
+  color: $white;
+  font-size: 0.88rem;
 }
 
 i {
@@ -58,8 +59,8 @@ body {
 }
 
 body {
-  font-family: "Varela Round", sans-serif;
+  font-family: $font;
+  font-size: $font-size;
   color: $black;
-  font-size: 18px;
   line-height: 1.5;
 }
