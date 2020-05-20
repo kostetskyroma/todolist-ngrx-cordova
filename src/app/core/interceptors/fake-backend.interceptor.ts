@@ -176,7 +176,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         },
       });
     }
-    newUser.id = this.users.length + 1;
+    newUser.id = this.getRandomId();
     this.users = this.users.concat([newUser]);
     localStorage.setItem('users', JSON.stringify(this.users));
     return of(new HttpResponse({ status: 200 }));
@@ -242,7 +242,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
   saveTodo(request: HttpRequest<any>) {
     const todo = { ...request.body };
-    todo.id = this.todos.length + 1;
+    todo.id = this.getRandomId();
     this.todos = this.todos.concat([todo]);
     localStorage.setItem('todos', JSON.stringify(this.todos));
 
@@ -305,5 +305,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         error: { message: 'Unauthorized' },
       });
     }
+  }
+  private getRandomId() {
+    return new Date().valueOf();
   }
 }

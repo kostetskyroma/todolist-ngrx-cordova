@@ -36,7 +36,7 @@ export class TodolistPipe implements PipeTransform {
       0
     );
 
-    return this.include(startOfMonth, endOfMonth, todo.dueDate);
+    return this.include(startOfMonth, endOfMonth, new Date(todo.dueDate));
   }
 
   byWeek(todo: TodoItem) {
@@ -48,10 +48,10 @@ export class TodolistPipe implements PipeTransform {
       currentDate.setDate(currentDate.getDate() - currentDate.getDay() + 6)
     );
 
-    return this.include(startOfWeek, endOfWeek, todo.dueDate);
+    return this.include(startOfWeek, endOfWeek, new Date(todo.dueDate));
   }
 
-  include(first: Date, last: Date, date: Date | string): boolean {
+  include(first: Date, last: Date, date: Date): boolean {
     return date >= first && date <= last;
   }
 }
