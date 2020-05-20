@@ -39,6 +39,12 @@ button {
   border: 2px solid #e8ebed;
 }
 
+input {
+  &:focus {
+    background: #fafafa;
+  }
+}
+
 i {
   line-height: 1;
   vertical-align: middle;
