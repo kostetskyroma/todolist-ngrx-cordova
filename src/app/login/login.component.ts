@@ -3,7 +3,9 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { AlertService } from '../core/services/alert.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../core/services/authentication.service';
-import { first } from 'rxjs/operators';
+import { LoginAction } from '../store/actions/auth.actions';
+import { Login } from './login.interface';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-login',
@@ -22,18 +24,15 @@ export class LoginComponent implements OnInit {
     private alertService: AlertService,
     private route: ActivatedRoute,
     private router: Router,
+    private store$: Store,
     private authenticationService: AuthenticationService
   ) {}
 
   ngOnInit() {
-    // reset login status
     this.authenticationService.logout();
-
-    // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
   }
 
-  // convenience getter for easy access to form fields
   get controls() {
     return this.form.controls;
   }
@@ -42,17 +41,10 @@ export class LoginComponent implements OnInit {
     if (this.form?.invalid) {
       return;
     }
-    this.authenticationService
-      .login(this.controls?.username?.value, this.controls?.password?.value)
-      .pipe(first())
-      .subscribe(
-        (data) => {
-          this.alertService.success('Logged in');
-          this.router.navigate([this.returnUrl]);
-        },
-        (error) => {
-          this.alertService.error(error);
-        }
-      );
+    const payload: Login = {
+      username: this.controls?.username?.value,
+      password: this.controls?.password?.value,
+    };
+    this.store$.dispatch(new LoginAction(payload));
   }
 }

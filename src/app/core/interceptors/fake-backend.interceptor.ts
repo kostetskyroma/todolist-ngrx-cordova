@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import {
-  HTTP_INTERCEPTORS,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
@@ -9,6 +8,7 @@ import {
 } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { delay, dematerialize, materialize, mergeMap } from 'rxjs/operators';
+import { User } from '../interfaces/user';
 
 @Injectable({
   providedIn: 'root',
@@ -26,8 +26,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     return of(null)
       .pipe(
         mergeMap(() => {
-          this.todos = JSON.parse(localStorage.getItem('todos')) || [];
           this.users = JSON.parse(localStorage.getItem('users')) || [];
+          this.todos = JSON.parse(localStorage.getItem('todos')) || [];
 
           // authenticate
           if (
@@ -117,16 +117,13 @@ export class FakeBackendInterceptor implements HttpInterceptor {
   }
 
   usersAuthenticate(request: HttpRequest<any>) {
-    // find if any user matches login credentials
     const filteredUsers = this.users.filter((user) => {
       return (
         user.username === request.body.username &&
         user.password === request.body.password
       );
     });
-
     if (filteredUsers.length) {
-      // if login details are valid return 200 OK with user details and fake jwt token
       const user = filteredUsers[0];
       const body = {
         id: user.id,
@@ -135,20 +132,16 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         lastname: user.lastname,
         token: 'fake-token',
       };
-
       return of(new HttpResponse({ status: 200, body }));
     } else {
-      // else return 400 bad request
       return throwError('Username or password is incorrect');
     }
   }
 
   getUsers(request: HttpRequest<any>) {
-    // check for fake auth token in header and return users if valid, this security is implemented server side in a real application
     if (request.headers.get('Authorization') === 'Bearer fake-token') {
       return of(new HttpResponse({ status: 200, body: this.users }));
     } else {
-      // return 401 not authorised if token is null or invalid
       return throwError({
         status: 401,
         error: { message: 'Unauthorized' },
@@ -157,19 +150,13 @@ export class FakeBackendInterceptor implements HttpInterceptor {
   }
 
   getUserById(request: HttpRequest<any>) {
-    // check for fake auth token in header and return user if valid, this security is implemented server side in a real application
     if (request.headers.get('Authorization') === 'Bearer fake-token') {
-      // find user by id in users array
       const urlParts = request.url.split('/');
       const id = parseInt(urlParts[urlParts.length - 1]);
-      const matchedUsers = this.users.filter((u) => {
-        return u.id === id;
-      });
+      const matchedUsers = this.users.filter((u) => u.id === id);
       const user = matchedUsers.length ? matchedUsers[0] : null;
-
       return of(new HttpResponse({ status: 200, body: user }));
     } else {
-      // return 401 not authorised if token is null or invalid
       return throwError({
         status: 401,
         error: { message: 'Unauthorized' },
@@ -178,9 +165,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
   }
 
   createUser(request: HttpRequest<any>) {
-    // get new user object from post body
-    const newUser = request.body;
-    // validation
+    const newUser: User = request.body;
     const duplicateUser = this.users.filter((user) => {
       return user.username === newUser.username;
     }).length;
@@ -191,35 +176,22 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         },
       });
     }
-    // save new user
     newUser.id = this.users.length + 1;
-    this.users.push(newUser);
+    this.users = this.users.concat([newUser]);
     localStorage.setItem('users', JSON.stringify(this.users));
-    // respond 200 OK
     return of(new HttpResponse({ status: 200 }));
   }
 
   updateUser(request: HttpRequest<any>) {
-    // check for fake auth token in header and return user if valid, this security is implemented server side in a real application
     if (request.headers.get('Authorization') === 'Bearer fake-token') {
-      // find user by id in users array
       const urlParts = request.url.split('/');
       const newUser = request.body;
       const id = parseInt(urlParts[urlParts.length - 1]);
-      for (let i = 0; i < this.users.length; i++) {
-        const user = this.users[i];
-        if (user.id === id) {
-          this.users.splice(i, 1);
-          this.users.push(newUser);
-          localStorage.setItem('users', JSON.stringify(this.users));
-          break;
-        }
-      }
-
-      // respond 200 OK
+      this.users = this.users.filter((user) => user.id !== id);
+      this.users = this.users.concat(newUser);
+      localStorage.setItem('users', JSON.stringify(this.users));
       return of(new HttpResponse({ status: 200 }));
     } else {
-      // return 401 not authorised if token is null or invalid
       return throwError({
         status: 401,
         error: { message: 'Unauthorized' },
@@ -228,25 +200,14 @@ export class FakeBackendInterceptor implements HttpInterceptor {
   }
 
   deleteUser(request: HttpRequest<any>) {
-    // check for fake auth token in header and return user if valid, this security is implemented server side in a real application
     if (request.headers.get('Authorization') === 'Bearer fake-token') {
-      // find user by id in users array
       const urlParts = request.url.split('/');
       const id = parseInt(urlParts[urlParts.length - 1]);
-      for (let i = 0; i < this.users.length; i++) {
-        const user = this.users[i];
-        if (user.id === id) {
-          // delete user
-          this.users.splice(i, 1);
-          localStorage.setItem('users', JSON.stringify(this.users));
-          break;
-        }
-      }
-
-      // respond 200 OK
+      const users = [...this.users];
+      this.users = users.filter((user) => user.id !== id);
+      localStorage.setItem('users', JSON.stringify(this.users));
       return of(new HttpResponse({ status: 200 }));
     } else {
-      // return 401 not authorised if token is null or invalid
       return throwError({
         status: 401,
         error: { message: 'Unauthorized' },

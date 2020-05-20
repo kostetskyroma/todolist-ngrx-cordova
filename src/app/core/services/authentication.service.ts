@@ -8,23 +8,17 @@ export class AuthenticationService {
   constructor(private http: HttpClient) {}
 
   login(username: string, password: string) {
-    return this.http
-      .post<any>(`${config.apiUrl}/users/authenticate`, { username, password })
-      .pipe(
-        map((user) => {
-          // login successful if there's a token in the response
-          if (user && user.token) {
-            // store user details and token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('currentUser', JSON.stringify(user));
-          }
+    return this.http.post<any>(`${config.apiUrl}/users/authenticate`, {
+      username,
+      password,
+    });
+  }
 
-          return user;
-        })
-      );
+  setCurrentUser(currentUser: string) {
+    localStorage.setItem('currentUser', currentUser);
   }
 
   logout() {
-    // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
   }
 

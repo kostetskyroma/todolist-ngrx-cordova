@@ -19,7 +19,7 @@ import { UserService } from './core/services/user.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AlertComponent } from './alert/alert.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
-import { metaReducers, reducers } from './store/state/todo.state';
+import { metaReducers, reducers } from './store/state/app.state';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
@@ -28,6 +28,7 @@ import { TodoEffects } from './store/effects/todo.effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { TodolistPipe } from './todolist/todolist.pipe';
 import { TodoItemComponent } from './todo-item/todo-item.component';
+import { AuthEffects } from './store/effects/auth.effects';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,7 @@ import { TodoItemComponent } from './todo-item/todo-item.component';
       maxAge: 25,
       logOnly: environment.production,
     }),
-    EffectsModule.forRoot([TodoEffects]),
+    EffectsModule.forRoot([TodoEffects, AuthEffects]),
     StoreRouterConnectingModule.forRoot(),
     FormsModule,
   ],
