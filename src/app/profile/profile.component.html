@@ -1,5 +1,5 @@
 <form class="container profile" [formGroup]="form" (ngSubmit)="onSubmit()">
-  <h1 class="profile-title">Profile</h1>
+  <h1>Profile</h1>
   <img
     *ngIf="form.get('photo')?.value"
     src="{{ form.get('photo')?.value }}"

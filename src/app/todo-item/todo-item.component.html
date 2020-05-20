@@ -1,5 +1,5 @@
 <form class="container todo-item" [formGroup]="form" (ngSubmit)="onSubmit()">
-  <h1 class="todo-item-title">
+  <h1>
     {{ form.get("id")?.value ? "Update todo" : "Create todo" }}
   </h1>
   <input
