@@ -29,6 +29,7 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { TodolistPipe } from './todolist/todolist.pipe';
 import { TodoItemComponent } from './todo-item/todo-item.component';
 import { AuthEffects } from './store/effects/auth.effects';
+import { DateInterceptor } from './core/interceptors/date.interceptor';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,11 @@ import { AuthEffects } from './store/effects/auth.effects';
     UserService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: DateInterceptor,
+      multi: true,
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: FakeBackendInterceptor,

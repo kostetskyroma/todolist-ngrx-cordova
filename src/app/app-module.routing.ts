@@ -9,6 +9,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { ProfileResolver } from './profile/profile.resolver';
 import { TodoItemComponent } from './todo-item/todo-item.component';
+import { TodoItemResolver } from './todo-item/todo-item.resolver';
 
 const routes: Routes = [
   {
@@ -25,6 +26,9 @@ const routes: Routes = [
     path: 'todo/:id',
     component: TodoItemComponent,
     canActivate: [AuthGuard],
+    resolve: {
+      todo: TodoItemResolver,
+    },
   },
   {
     path: 'profile',

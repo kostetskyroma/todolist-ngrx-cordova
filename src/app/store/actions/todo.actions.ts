@@ -5,6 +5,8 @@ export enum TODO_TYPE {
   GET_ALL = '[TODO] get all',
   GET_ALL_SUCCESS = '[TODO] get all success',
   GET_ALL_ERROR = '[TODO] get all error',
+  GET_BY_ID = '[TODO] get by id',
+  GET_BY_ID_SUCCESS = '[TODO] get by id success',
   CREATE = '[TODO] create',
   UPDATE = '[TODO] update',
   DELETE = '[TODO] delete',
@@ -45,6 +47,16 @@ export class GetAllErrorTodoAction implements Action {
   constructor(public payload: TodoItem[]) {}
 }
 
+export class GetByIdTodoAction implements Action {
+  readonly type = TODO_TYPE.GET_BY_ID;
+  constructor(public payload: number) {}
+}
+
+export class GetByIdSuccessTodoAction implements Action {
+  readonly type = TODO_TYPE.GET_BY_ID_SUCCESS;
+  constructor(public payload: TodoItem) {}
+}
+
 export type TodoActions =
   | CreateTodoAction
   | UpdateTodoAction
@@ -52,4 +64,6 @@ export type TodoActions =
   | CompleteTodoAction
   | GetAllTodoAction
   | GetAllSuccessTodoAction
-  | GetAllErrorTodoAction;
+  | GetAllErrorTodoAction
+  | GetByIdTodoAction
+  | GetByIdSuccessTodoAction;

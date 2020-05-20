@@ -41,8 +41,9 @@ export class TodoItemComponent implements OnInit {
   }
 
   get todo$() {
-    return this.id$.pipe(
-      switchMap((id) => this.store$.pipe(select(selectById(id))))
+    return this.route.data.pipe(
+      map(({ todo }) => todo?.payload),
+      shareReplay(1)
     );
   }
 
@@ -50,15 +51,8 @@ export class TodoItemComponent implements OnInit {
     if (this.form?.invalid) {
       return;
     }
-    const data = {
-      ...this.form?.value,
-      ...{
-        dueDate: this.form?.value?.dueDate
-          ? new Date(this.form?.value?.dueDate)
-          : null,
-      },
-    };
-    this.store$.dispatch(new CreateTodoAction(data));
+
+    this.store$.dispatch(new CreateTodoAction(this.form.value));
     this.router.navigate(['..']);
   }
 }

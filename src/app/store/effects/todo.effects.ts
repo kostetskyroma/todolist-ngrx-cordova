@@ -3,7 +3,12 @@ import { Actions, createEffect, Effect, ofType } from '@ngrx/effects';
 import { catchError, exhaustMap, map, mergeMap, tap } from 'rxjs/operators';
 import { TodoListService } from '../../todolist/todolist.service';
 import { EMPTY } from 'rxjs';
-import { TODO_TYPE } from '../actions/todo.actions';
+import {
+  CompleteTodoAction,
+  GetByIdSuccessTodoAction,
+  GetByIdTodoAction,
+  TODO_TYPE,
+} from '../actions/todo.actions';
 import { TodoItem } from '../../todolist/todolist.interface';
 
 @Injectable()
@@ -45,10 +50,21 @@ export class TodoEffects {
   @Effect({ dispatch: false })
   completeTodo$ = this.actions$.pipe(
     ofType(TODO_TYPE.COMPLETE),
-    mergeMap((action: any) => {
+    mergeMap((action: CompleteTodoAction) => {
       return this.todoListService
         .complete(action.payload)
         .pipe(catchError(() => EMPTY));
+    })
+  );
+
+  @Effect()
+  getByIdTodo$ = this.actions$.pipe(
+    ofType(TODO_TYPE.GET_BY_ID),
+    mergeMap((action: GetByIdTodoAction) => {
+      return this.todoListService.getById(action.payload).pipe(
+        map((todo: TodoItem) => new GetByIdSuccessTodoAction(todo)),
+        catchError(() => EMPTY)
+      );
     })
   );
 

@@ -51,7 +51,7 @@ export class TodolistPipe implements PipeTransform {
     return this.include(startOfWeek, endOfWeek, todo.dueDate);
   }
 
-  include(first: Date, last: Date, date: Date): boolean {
+  include(first: Date, last: Date, date: Date | string): boolean {
     return date >= first && date <= last;
   }
 }
