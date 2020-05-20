@@ -1,13 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import {
-  catchError,
-  debounceTime,
-  first,
-  map,
-  mergeMap,
-  tap,
-} from 'rxjs/operators';
+import { catchError, debounceTime, map, mergeMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { AuthenticationService } from '../../core/services/authentication.service';
 import {
@@ -25,7 +18,6 @@ export class AuthEffects {
   @Effect()
   login$ = this.actions$.pipe(
     ofType(AUTH_TYPE.LOGIN),
-    debounceTime(500),
     mergeMap((action: LoginAction) =>
       this.authenticationService
         .login(action.payload.username, action.payload.password)
@@ -41,13 +33,13 @@ export class AuthEffects {
     ofType(AUTH_TYPE.LOGIN_SUCCESS),
     tap((action: LoginSuccessAction) => {
       const url = this.route.snapshot?.queryParams?.returnUrl || '/';
-      this.alertService.success(`Welcome ${action.payload?.firstname}`);
+      this.alertService.success(`Welcome ${action.payload?.firstname}!`);
       if (action.payload?.token) {
         this.authenticationService.setCurrentUser(
           JSON.stringify(action.payload)
         );
       }
-      this.router.navigateByUrl(url);
+      setTimeout(() => this.router.navigateByUrl(url), 1500);
     })
   );
 

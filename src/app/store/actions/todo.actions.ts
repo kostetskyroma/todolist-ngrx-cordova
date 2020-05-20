@@ -1,47 +1,47 @@
 import { Action } from '@ngrx/store';
 import { TodoItem } from '../../todolist/todolist.interface';
 
-export enum todoType {
-  getAll = '[TODO] getAll',
-  getAllSuccess = '[TODO] getAll success',
-  getAllError = '[TODO] getAll error',
-  create = '[TODO] create',
-  update = '[TODO] update',
-  delete = '[TODO] delete',
-  complete = '[TODO] complete',
+export enum TODO_TYPE {
+  GET_ALL = '[TODO] get all',
+  GET_ALL_SUCCESS = '[TODO] get all success',
+  GET_ALL_ERROR = '[TODO] get all error',
+  CREATE = '[TODO] create',
+  UPDATE = '[TODO] update',
+  DELETE = '[TODO] delete',
+  COMPLETE = '[TODO] complete',
 }
 
 export class CreateTodoAction implements Action {
-  readonly type = todoType.create;
+  readonly type = TODO_TYPE.CREATE;
   constructor(public payload: TodoItem) {}
 }
 
 export class UpdateTodoAction implements Action {
-  readonly type = todoType.update;
+  readonly type = TODO_TYPE.UPDATE;
   constructor(public payload: TodoItem) {}
 }
 
 export class DeleteTodoAction implements Action {
-  readonly type = todoType.delete;
+  readonly type = TODO_TYPE.DELETE;
   constructor(public payload: number) {}
 }
 
 export class CompleteTodoAction implements Action {
-  readonly type = todoType.complete;
+  readonly type = TODO_TYPE.COMPLETE;
   constructor(public payload: number) {}
 }
 
 export class GetAllTodoAction implements Action {
-  readonly type = todoType.getAll;
+  readonly type = TODO_TYPE.GET_ALL;
 }
 
 export class GetAllSuccessTodoAction implements Action {
-  readonly type = todoType.getAllSuccess;
+  readonly type = TODO_TYPE.GET_ALL_SUCCESS;
   constructor(public payload: TodoItem[]) {}
 }
 
 export class GetAllErrorTodoAction implements Action {
-  readonly type = todoType.getAllError;
+  readonly type = TODO_TYPE.GET_ALL_ERROR;
   constructor(public payload: TodoItem[]) {}
 }
 

@@ -1,4 +1,4 @@
-import { TodoActions, todoType } from '../actions/todo.actions';
+import { TodoActions, TODO_TYPE } from '../actions/todo.actions';
 import { TodoItem } from '../../todolist/todolist.interface';
 
 export const todoNode = 'todo';
@@ -6,21 +6,21 @@ export const initialState: TodoItem[] = [];
 
 export const todoReducer = (state = initialState, action: TodoActions) => {
   switch (action.type) {
-    case todoType.getAllSuccess:
+    case TODO_TYPE.GET_ALL_SUCCESS:
       return action.payload;
-    case todoType.getAllError:
+    case TODO_TYPE.GET_ALL_ERROR:
       return state.concat([]);
-    case todoType.create:
+    case TODO_TYPE.CREATE:
       return state.concat([action.payload]);
-    case todoType.update:
+    case TODO_TYPE.UPDATE:
       return state.map((todo) => {
         return todo.id !== action.payload.id
           ? todo
           : Object.assign({}, todo, action.payload);
       });
-    case todoType.delete:
+    case TODO_TYPE.DELETE:
       return state.filter((todo) => todo.id !== action.payload);
-    case todoType.complete:
+    case TODO_TYPE.COMPLETE:
       return state.map((todo) => {
         return todo.id !== action.payload
           ? todo
