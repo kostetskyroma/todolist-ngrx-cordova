@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, shareReplay, switchMap } from 'rxjs/operators';
-import { CreateTodoAction } from '../store/actions/todo.actions';
-import { select, Store } from '@ngrx/store';
+import {
+  CreateTodoAction,
+  UpdateTodoAction,
+} from '../store/actions/todo.actions';
+import { Store } from '@ngrx/store';
 import { TodoItem } from '../todolist/todolist.interface';
-import { Observable } from 'rxjs';
-import { selectById } from '../store/selectors/todo.selectors';
 
 @Component({
   selector: 'app-todo-item',
@@ -51,8 +52,11 @@ export class TodoItemComponent implements OnInit {
     if (this.form?.invalid) {
       return;
     }
+    const todo: TodoItem = this.form?.value;
 
-    this.store$.dispatch(new CreateTodoAction(this.form.value));
+    this.store$.dispatch(
+      todo?.id ? new UpdateTodoAction(todo) : new CreateTodoAction(todo)
+    );
     this.router.navigate(['..']);
   }
 }

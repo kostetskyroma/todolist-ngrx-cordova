@@ -217,7 +217,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
   getTodos(request: HttpRequest<any>) {
     if (request.headers.get('Authorization') === 'Bearer fake-token') {
-      return of(new HttpResponse({ status: 200, body: this.todos }));
+      return of(new HttpResponse({ status: 200, body: [...this.todos] }));
     } else {
       return throwError({
         status: 401,
@@ -231,7 +231,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       const urlParts = request.url.split('/');
       const id = parseInt(urlParts[urlParts.length - 1]);
       const todo = this.todos.filter((item) => item.id === id)[0];
-      return of(new HttpResponse({ status: 200, body: todo }));
+      return of(new HttpResponse({ status: 200, body: { ...todo } }));
     } else {
       return throwError({
         status: 401,
@@ -246,7 +246,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     this.todos = this.todos.concat([todo]);
     localStorage.setItem('todos', JSON.stringify(this.todos));
 
-    return of(new HttpResponse({ status: 200 }));
+    return of(new HttpResponse({ status: 200, body: { ...todo } }));
   }
 
   updateTodo(request: HttpRequest<any>) {
@@ -258,7 +258,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       this.todos = this.todos.concat(newTodo);
       localStorage.setItem('todos', JSON.stringify(this.todos));
 
-      return of(new HttpResponse({ status: 200 }));
+      return of(new HttpResponse({ status: 200, body: [...this.todos] }));
     } else {
       return throwError({
         status: 401,
@@ -275,10 +275,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       this.todos = todos.filter((todo) => todo.id !== id);
       localStorage.setItem('todos', JSON.stringify(this.todos));
 
-      // respond 200 OK
-      return of(new HttpResponse({ status: 200 }));
+      return of(new HttpResponse({ status: 200, body: [...this.todos] }));
     } else {
-      // return 401 not authorised if token is null or invalid
       return throwError({
         status: 401,
         error: { message: 'Unauthorized' },
@@ -296,10 +294,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       this.todos = todos;
       localStorage.setItem('todos', JSON.stringify(this.todos));
 
-      // respond 200 OK
-      return of(new HttpResponse({ status: 200 }));
+      return of(new HttpResponse({ status: 200, body: [...this.todos] }));
     } else {
-      // return 401 not authorised if token is null or invalid
       return throwError({
         status: 401,
         error: { message: 'Unauthorized' },

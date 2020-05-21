@@ -2,12 +2,21 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, Effect, ofType } from '@ngrx/effects';
 import { catchError, exhaustMap, map, mergeMap, tap } from 'rxjs/operators';
 import { TodoListService } from '../../todolist/todolist.service';
-import { EMPTY } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import {
+  CompleteSuccessTodoAction,
   CompleteTodoAction,
+  CreateSuccessTodoAction,
+  CreateTodoAction,
+  DeleteSuccessTodoAction,
+  DeleteTodoAction,
+  GetAllErrorTodoAction,
+  GetAllSuccessTodoAction,
   GetByIdSuccessTodoAction,
   GetByIdTodoAction,
   TODO_TYPE,
+  UpdateSuccessTodoAction,
+  UpdateTodoAction,
 } from '../actions/todo.actions';
 import { TodoItem } from '../../todolist/todolist.interface';
 
@@ -18,42 +27,55 @@ export class TodoEffects {
     ofType(TODO_TYPE.GET_ALL),
     mergeMap(() =>
       this.todoListService.getAll().pipe(
-        map((todos: TodoItem[]) => ({
-          type: TODO_TYPE.GET_ALL_SUCCESS,
-          payload: todos,
-        })),
-        catchError(() => EMPTY)
+        map(
+          (todos: TodoItem[]) => new GetAllSuccessTodoAction(todos),
+          catchError(() => of(new GetAllErrorTodoAction()))
+        )
       )
     )
   );
 
-  @Effect({ dispatch: false })
+  @Effect()
   createTodo$ = this.actions$.pipe(
     ofType(TODO_TYPE.CREATE),
-    mergeMap((action: any) => {
-      return this.todoListService
-        .create(action.payload)
-        .pipe(catchError(() => EMPTY));
+    mergeMap((action: CreateTodoAction) => {
+      return this.todoListService.create(action.payload).pipe(
+        map((todo: TodoItem) => new CreateSuccessTodoAction(todo)),
+        catchError(() => EMPTY)
+      );
     })
   );
 
-  @Effect({ dispatch: false })
+  @Effect()
+  updateTodo$ = this.actions$.pipe(
+    ofType(TODO_TYPE.UPDATE),
+    mergeMap((action: UpdateTodoAction) => {
+      return this.todoListService.update(action.payload).pipe(
+        map((todos: TodoItem[]) => new UpdateSuccessTodoAction(todos)),
+        catchError(() => EMPTY)
+      );
+    })
+  );
+
+  @Effect()
   deleteTodo$ = this.actions$.pipe(
     ofType(TODO_TYPE.DELETE),
-    mergeMap((action: any) => {
-      return this.todoListService
-        .delete(action.payload)
-        .pipe(catchError(() => EMPTY));
+    mergeMap((action: DeleteTodoAction) => {
+      return this.todoListService.delete(action.payload).pipe(
+        map((todos: TodoItem[]) => new DeleteSuccessTodoAction(todos)),
+        catchError(() => EMPTY)
+      );
     })
   );
 
-  @Effect({ dispatch: false })
+  @Effect()
   completeTodo$ = this.actions$.pipe(
     ofType(TODO_TYPE.COMPLETE),
     mergeMap((action: CompleteTodoAction) => {
-      return this.todoListService
-        .complete(action.payload)
-        .pipe(catchError(() => EMPTY));
+      return this.todoListService.complete(action.payload).pipe(
+        map((todos: TodoItem[]) => new CompleteSuccessTodoAction(todos)),
+        catchError(() => EMPTY)
+      );
     })
   );
 
