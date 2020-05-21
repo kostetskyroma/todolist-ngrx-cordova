@@ -1,5 +1,12 @@
 <form class="container sign-up" [formGroup]="form" (ngSubmit)="onSubmit()">
   <h1>Sign-up</h1>
+  <img
+    *ngIf="form.get('photo')?.value"
+    src="{{ form.get('photo')?.value }}"
+    class="photo"
+    alt=""
+  />
+  <div *ngIf="!form.get('photo')?.value" class="no-photo">No photo</div>
   <input
     type="text"
     formControlName="firstname"
@@ -28,5 +35,6 @@
     placeholder="Password"
     autocomplete="off"
   />
+  <input type="button" (click)="takePhoto()" value="Take a photo" />
   <button type="submit" class="sign-up-button">Sign-up</button>
 </form>

@@ -35,7 +35,8 @@ export class ProfileComponent implements OnInit {
       (photo) => {
         this.form.patchValue({ photo });
         this.changeDetector.detectChanges();
-        console.log(photo);
+        this.userService.update(this.form?.value);
+        console.log(this.form.value);
       },
       (err) => {
         console.log(err);

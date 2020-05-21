@@ -5,7 +5,7 @@ import { config } from '../config/api.config';
 
 @Injectable()
 export class UserService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getAll() {
     return this.http.get<User[]>(`${config.apiUrl}/users`);
