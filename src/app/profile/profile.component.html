@@ -8,6 +8,12 @@
   />
   <div *ngIf="!form.get('photo')?.value" class="no-photo">No photo</div>
   <input
+    type="file"
+    (change)="onFileChange($event)"
+    placeholder="Photo"
+    autocomplete="off"
+  />
+  <input
     type="text"
     formControlName="firstname"
     class="firstname"
@@ -35,6 +41,7 @@
     placeholder="Password"
     autocomplete="off"
   />
-  <input type="button" (click)="takePhoto()" value="Take a photo" />
-  <button type="submit" class="profile-button">Update</button>
+  <button type="submit">
+    Update
+  </button>
 </form>

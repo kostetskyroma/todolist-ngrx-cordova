@@ -1,11 +1,10 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { UserService } from '../core/services/user.service';
+import { AlertService } from '../core/components/alert/alert.service';
 import { SignUpAction } from '../store/actions/auth.actions';
 import { User } from '../core/interfaces/user';
 import { Store } from '@ngrx/store';
-import { UserService } from '../core/services/user.service';
-
-declare const navigator: any;
 
 @Component({
   selector: 'app-sign-up',
@@ -23,35 +22,37 @@ export class SignUpComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private store$: Store,
     private userService: UserService,
-    private changeDetector: ChangeDetectorRef
+    private alertService: AlertService,
+    private changeDetector: ChangeDetectorRef,
+    private store$: Store
   ) {}
 
-  ngOnInit() {}
-
-  takePhoto() {
-    navigator?.camera?.getPicture(
-      (photo) => {
-        this.form.patchValue({ photo });
-        this.changeDetector.detectChanges();
-        this.userService.update(this.form?.value);
-        console.log(this.form.value);
-      },
-      (err) => {
-        console.log(err);
-      },
-      {
-        sourceType: navigator.camera.PictureSourceType.CAMERA,
-        saveToPhotoAlbum: true,
-      }
-    );
-  }
+  ngOnInit(): void {}
 
   onSubmit() {
     if (this.form?.invalid) {
       return;
     }
     this.store$.dispatch(new SignUpAction(this.form?.value as User));
+  }
+
+  onFileChange($event) {
+    if ($event.target?.files?.length) {
+      const [file] = $event.target.files;
+      this.getBase64(file).then((fileBase64) => {
+        this.form.patchValue({ photo: fileBase64 });
+        this.changeDetector.detectChanges();
+      });
+    }
+  }
+
+  getBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
   }
 }

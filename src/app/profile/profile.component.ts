@@ -5,8 +5,6 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { UserService } from '../core/services/user.service';
 import { AlertService } from '../core/components/alert/alert.service';
 
-declare const navigator: any;
-
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -14,7 +12,7 @@ declare const navigator: any;
 })
 export class ProfileComponent implements OnInit {
   form = this.formBuilder.group({
-    id: [''],
+    id: [],
     firstname: ['', Validators.required],
     lastname: ['', Validators.required],
     username: ['', Validators.required],
@@ -30,28 +28,8 @@ export class ProfileComponent implements OnInit {
     private changeDetector: ChangeDetectorRef
   ) {}
 
-  takePhoto() {
-    navigator?.camera?.getPicture(
-      (photo) => {
-        this.form.patchValue({ photo });
-        this.changeDetector.detectChanges();
-        this.userService.update(this.form?.value);
-        console.log(this.form.value);
-      },
-      (err) => {
-        console.log(err);
-      },
-      {
-        sourceType: navigator.camera.PictureSourceType.CAMERA,
-        saveToPhotoAlbum: true,
-      }
-    );
-  }
-
   ngOnInit(): void {
-    this.user$.subscribe((user) => {
-      this.form.patchValue(user);
-    });
+    this.user$.subscribe((user = {}) => this.form.patchValue(user));
   }
 
   get user$() {
@@ -69,5 +47,24 @@ export class ProfileComponent implements OnInit {
       () => this.alertService.success('Profile successfully updated'),
       () => this.alertService.error('Error on updating profile')
     );
+  }
+
+  onFileChange($event) {
+    if ($event.target?.files?.length) {
+      const [file] = $event.target.files;
+      this.getBase64(file).then((fileBase64) => {
+        this.form.patchValue({ photo: fileBase64 });
+        this.changeDetector.detectChanges();
+      });
+    }
+  }
+
+  getBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
   }
 }
