@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, shareReplay, switchMap } from 'rxjs/operators';
@@ -8,6 +8,9 @@ import {
 } from '../store/actions/todo.actions';
 import { Store } from '@ngrx/store';
 import { TodoItem } from '../todolist/todolist.interface';
+import { AlertService } from '../core/components/alert/alert.service';
+
+declare const navigator: any;
 
 @Component({
   selector: 'app-todo-item',
@@ -27,24 +30,33 @@ export class TodoItemComponent implements OnInit {
     private readonly store$: Store<TodoItem[]>,
     private readonly formBuilder: FormBuilder,
     private readonly router: Router,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly alertService: AlertService,
+    private readonly changeDetector: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
     this.todo$.subscribe((todo) => this.form.patchValue(todo || {}));
   }
 
-  get id$() {
-    return this.route.params.pipe(
-      map(({ id }) => +id),
-      shareReplay(1)
-    );
-  }
-
   get todo$() {
     return this.route.data.pipe(
       map(({ todo }) => todo?.payload),
       shareReplay(1)
+    );
+  }
+
+  takePhoto() {
+    navigator?.camera?.getPicture(
+      (photo) => {
+        this.form.patchValue({ photo });
+        this.changeDetector.detectChanges();
+      },
+      (err) => this.alertService.error('Upload error'),
+      {
+        sourceType: navigator.camera.PictureSourceType.CAMERA,
+        saveToPhotoAlbum: true,
+      }
     );
   }
 

@@ -25,13 +25,13 @@
     [value]="form.get('dueDate').value"
     autocomplete="off"
   />
-  <input
-    type="file"
-    formControlName="photo"
+  <img
+    *ngIf="form.get('photo')?.value"
+    src="{{ form.get('photo')?.value }}"
     class="photo"
-    placeholder="Photo"
-    autocomplete="off"
+    alt=""
   />
+  <input type="button" (click)="takePhoto()" value="Take a photo" />
   <button type="submit" class="todo-item-button">
     {{ form.get("id")?.value ? "Update" : "Create" }}
   </button>

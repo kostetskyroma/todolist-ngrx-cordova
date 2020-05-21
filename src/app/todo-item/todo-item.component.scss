@@ -1,0 +1,9 @@
+@import "variables/colors";
+@import "variables/spacing";
+
+.todo-item {
+  .photo {
+    object-fit: cover;
+    width: 100%;
+  }
+}
