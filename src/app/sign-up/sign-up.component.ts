@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { UserService } from '../core/services/user.service';
-import { first } from 'rxjs/operators';
-import { AlertService } from '../core/components/alert/alert.service';
+import { FormBuilder, Validators } from '@angular/forms';
+import { SignUpAction } from '../store/actions/auth.actions';
+import { User } from '../core/interfaces/user';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-sign-up',
@@ -18,12 +17,7 @@ export class SignUpComponent implements OnInit {
     password: ['', Validators.required],
   });
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private router: Router,
-    private userService: UserService,
-    private alertService: AlertService
-  ) {}
+  constructor(private formBuilder: FormBuilder, private store$: Store) {}
 
   ngOnInit() {}
 
@@ -31,17 +25,6 @@ export class SignUpComponent implements OnInit {
     if (this.form?.invalid) {
       return;
     }
-    this.userService
-      .register(this.form.value)
-      .pipe(first())
-      .subscribe(
-        (data) => {
-          this.alertService.success('Successfully signed-up');
-          this.router.navigate(['/login']);
-        },
-        (error) => {
-          this.alertService.error(error);
-        }
-      );
+    this.store$.dispatch(new SignUpAction(this.form?.value as User));
   }
 }

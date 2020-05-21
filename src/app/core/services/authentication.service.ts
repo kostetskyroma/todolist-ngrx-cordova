@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 import { config } from '../config/api.config';
+import { User } from '../interfaces/user';
 
 @Injectable()
 export class AuthenticationService {
@@ -12,6 +12,10 @@ export class AuthenticationService {
       username,
       password,
     });
+  }
+
+  signUp(user: User) {
+    return this.http.post(`${config.apiUrl}/users/register`, user);
   }
 
   setCurrentUser(currentUser: string) {

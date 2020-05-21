@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Login } from '../../login/login.interface';
+import { User } from '../../core/interfaces/user';
 
 export enum AUTH_TYPE {
   LOGIN = '[AUTH] login',
@@ -22,22 +23,22 @@ export class LoginSuccessAction implements Action {
 
 export class LoginErrorAction implements Action {
   readonly type = AUTH_TYPE.LOGIN_ERROR;
-  constructor(public payload: any) {}
+  constructor(public payload: string) {}
 }
 
 export class SignUpAction implements Action {
   readonly type = AUTH_TYPE.SIGN_UP;
-  constructor(public payload: any) {}
+  constructor(public payload: User) {}
 }
 
 export class SignUpSuccessAction implements Action {
   readonly type = AUTH_TYPE.SIGN_UP_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: User) {}
 }
 
 export class SignUpErrorAction implements Action {
   readonly type = AUTH_TYPE.SIGN_UP_ERROR;
-  constructor(public payload: any) {}
+  constructor(public payload: string) {}
 }
 
 export type AuthActions =

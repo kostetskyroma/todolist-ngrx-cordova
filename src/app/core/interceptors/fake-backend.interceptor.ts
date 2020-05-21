@@ -165,16 +165,12 @@ export class FakeBackendInterceptor implements HttpInterceptor {
   }
 
   createUser(request: HttpRequest<any>) {
-    const newUser: User = request.body;
+    const newUser: User = { ...request.body };
     const duplicateUser = this.users.filter((user) => {
       return user.username === newUser.username;
     }).length;
     if (duplicateUser) {
-      return throwError({
-        error: {
-          message: 'Username "' + newUser.username + '" is already taken',
-        },
-      });
+      return throwError('Username "' + newUser.username + '" is already taken');
     }
     newUser.id = this.getRandomId();
     this.users = this.users.concat([newUser]);
@@ -185,7 +181,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
   updateUser(request: HttpRequest<any>) {
     if (request.headers.get('Authorization') === 'Bearer fake-token') {
       const urlParts = request.url.split('/');
-      const newUser = request.body;
+      const newUser = { ...request.body };
       const id = parseInt(urlParts[urlParts.length - 1]);
       this.users = this.users.filter((user) => user.id !== id);
       this.users = this.users.concat(newUser);

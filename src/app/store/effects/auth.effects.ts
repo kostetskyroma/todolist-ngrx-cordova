@@ -8,6 +8,9 @@ import {
   LoginAction,
   LoginErrorAction,
   LoginSuccessAction,
+  SignUpAction,
+  SignUpErrorAction,
+  SignUpSuccessAction,
 } from '../actions/auth.actions';
 import { User } from '../../core/interfaces/user';
 import { AlertService } from '../../core/components/alert/alert.service';
@@ -48,6 +51,36 @@ export class AuthEffects {
     ofType(AUTH_TYPE.LOGIN_ERROR),
     tap(() => {
       this.alertService.error(`Username or password is incorrect!`);
+    })
+  );
+
+  @Effect()
+  signUp$ = this.actions$.pipe(
+    ofType(AUTH_TYPE.SIGN_UP),
+    mergeMap((action: SignUpAction) =>
+      this.authenticationService.signUp(action.payload as User).pipe(
+        map((user: User) => new SignUpSuccessAction(user)),
+        catchError((error) => of(new SignUpErrorAction(error)))
+      )
+    )
+  );
+
+  @Effect({ dispatch: false })
+  signUpSuccess$ = this.actions$.pipe(
+    ofType(AUTH_TYPE.SIGN_UP_SUCCESS),
+    tap((action: SignUpSuccessAction) => {
+      this.alertService.success(`Successfully signed-up!`);
+      this.router.navigate(['/login']);
+    })
+  );
+
+  @Effect({ dispatch: false })
+  signUpError$ = this.actions$.pipe(
+    ofType(AUTH_TYPE.SIGN_UP_ERROR),
+    tap((action: SignUpErrorAction) => {
+      this.alertService.error(
+        action.payload || `Can't sign up! Please, try later..`
+      );
     })
   );
 
