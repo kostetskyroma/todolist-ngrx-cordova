@@ -53,7 +53,7 @@
       "
     >
       <div class="todo__done">
-        <a href="#" (click)="complete(todo.id)"><i class="fa fa-check"></i></a>
+        <a (click)="complete($event, todo.id)"><i class="fa fa-check"></i></a>
       </div>
       <div>
         <div class="todo__title">{{ todo.title }}</div>
@@ -62,7 +62,7 @@
         </div>
       </div>
       <div class="todo__remove">
-        <a href="#" (click)="delete(todo.id)"><i class="fa fa-times"></i></a>
+        <a (click)="delete($event, todo.id)"><i class="fa fa-times"></i></a>
       </div>
     </li>
   </ul>

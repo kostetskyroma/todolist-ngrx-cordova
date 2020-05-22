@@ -68,11 +68,15 @@ export class TodolistComponent implements OnInit {
     this.filter.time = by;
   }
 
-  delete(id: number) {
+  delete($event: Event, id: number) {
+    $event.preventDefault();
+    $event.stopPropagation();
     this.store$.dispatch(new DeleteTodoAction(id));
   }
 
-  complete(id: number) {
+  complete($event: Event, id: number) {
+    $event.preventDefault();
+    $event.stopPropagation();
     this.store$.dispatch(new CompleteTodoAction(id));
   }
 
