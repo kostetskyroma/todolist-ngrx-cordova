@@ -15,11 +15,11 @@ export class AuthenticationService {
 
   login(username: string, password: string) {
     return from(
-      this.databaseService.getAll('users').then((users: User[]) => {
+      this.databaseService.getAll('users').then((users: User[]): any => {
         const user = users.find(
           (u) => u.username === username && u.password === password
         );
-        return user ? { ...user, token: 'fake-token' } : null;
+        return user ? { ...user, token: 'fake-token' } : Promise.reject();
       })
     );
   }

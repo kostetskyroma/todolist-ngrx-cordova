@@ -77,9 +77,10 @@ export class AuthEffects {
   @Effect({ dispatch: false })
   signUpError$ = this.actions$.pipe(
     ofType(AUTH_TYPE.SIGN_UP_ERROR),
-    tap((action: SignUpErrorAction) => {
+    tap((action: any) => {
       this.alertService.error(
-        action.payload || `Can't sign up! Please, try later..`
+        action.payload?.target?.error?.message ||
+          `Can't sign up! Please, try later..`
       );
     })
   );
