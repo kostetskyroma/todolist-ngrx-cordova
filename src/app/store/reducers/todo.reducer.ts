@@ -35,7 +35,7 @@ export const todoReducer = (state = initialState, action: any) => {
     case TODO_TYPE.GET_WITH_PARAMS_ERROR:
       return { ...state, loading: false, todos: state.todos.concat([]) };
     case TODO_TYPE.CREATE_SUCCESS:
-      return { ...state, todos: state.todos.concat(action.payload) };
+      return { ...state, todos: state.todos.concat([]) };
     case TODO_TYPE.UPDATE_SUCCESS:
       return { ...state, todos: [...action.payload] };
     case TODO_TYPE.DELETE_SUCCESS:

@@ -1,29 +1,41 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../interfaces/user';
-import { config } from '../config/api.config';
+import { getRandomId } from '../utils/id.util';
+import { from } from 'rxjs';
+import { NgxIndexedDBService } from 'ngx-indexed-db';
 
 @Injectable()
 export class UserService {
-  constructor(private http: HttpClient) {}
+  private readonly storeName = 'users';
+
+  constructor(
+    private http: HttpClient,
+    private databaseService: NgxIndexedDBService
+  ) {}
 
   getAll() {
-    return this.http.get<User[]>(`${config.apiUrl}/users`);
+    return this.databaseService.getAll(this.storeName);
   }
 
   getById(id: number) {
-    return this.http.get(`${config.apiUrl}/users/` + id);
+    return this.databaseService.getByID(this.storeName, id);
   }
 
-  register(user: User) {
-    return this.http.post(`${config.apiUrl}/users/register`, user);
+  create(user: User) {
+    const item = { ...user, id: getRandomId() };
+    return from(
+      this.databaseService
+        .add(this.storeName, item)
+        .then((id) => this.databaseService.getByID(this.storeName, id))
+    );
   }
 
   update(user: User) {
-    return this.http.put(`${config.apiUrl}/users/` + user.id, user);
+    return from(this.databaseService.update(this.storeName, user));
   }
 
   delete(id: number) {
-    return this.http.delete(`${config.apiUrl}/users/` + id);
+    return from(this.databaseService.delete(this.storeName, id));
   }
 }

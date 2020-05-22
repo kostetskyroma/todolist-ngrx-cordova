@@ -41,7 +41,7 @@ export class TodoEffects {
   loadTodosWithParams$ = this.actions$.pipe(
     ofType(TODO_TYPE.GET_WITH_PARAMS),
     mergeMap(({ payload }: { payload: TodoListRange }) =>
-      this.todoListService.getAll(payload).pipe(
+      this.todoListService.getWithParams(payload).pipe(
         map(
           (todos: TodoItem[]) => new GetWithParamsSuccessTodoAction(todos),
           catchError(() => of(new GetWithParamsErrorTodoAction()))

@@ -9,7 +9,6 @@ import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { FakeBackendInterceptor } from './core/interceptors/fake-backend.interceptor';
 import { TokenInterceptor } from './core/interceptors/token.interceptor';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { AuthGuard } from './core/guards/auth.guard';
@@ -31,6 +30,8 @@ import { TodoItemComponent } from './todo-item/todo-item.component';
 import { AuthEffects } from './store/effects/auth.effects';
 import { DateInterceptor } from './core/interceptors/date.interceptor';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { NgxIndexedDBModule } from 'ngx-indexed-db';
+import { dbConfig } from './core/db/db.config';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     EffectsModule.forRoot([TodoEffects, AuthEffects]),
     StoreRouterConnectingModule.forRoot(),
     FormsModule,
+    NgxIndexedDBModule.forRoot(dbConfig),
   ],
   providers: [
     AuthGuard,
@@ -76,11 +78,6 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: DateInterceptor,
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: FakeBackendInterceptor,
       multi: true,
     },
   ],
