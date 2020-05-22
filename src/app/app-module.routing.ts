@@ -16,6 +16,7 @@ const routes: Routes = [
     path: '',
     component: TodolistComponent,
     canActivate: [AuthGuard],
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
   },
   {
     path: 'todo',

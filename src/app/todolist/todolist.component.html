@@ -34,7 +34,14 @@
       Week
     </div>
   </div>
-  <ul class="todo-list">
+  <ul
+    class="todo-list"
+    infiniteScroll
+    [infiniteScrollDistance]="infiniteScroll.scrollDistance"
+    [infiniteScrollThrottle]="infiniteScroll.throttle"
+    (scrolled)="onScroll()"
+    [scrollWindow]="infiniteScroll.scrollWindow"
+  >
     <li
       class="todo"
       [class.completed]="todo.done === true"

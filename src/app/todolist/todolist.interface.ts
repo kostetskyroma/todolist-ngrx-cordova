@@ -6,3 +6,8 @@ export interface TodoItem {
   photo?: string;
   done: boolean;
 }
+
+export interface TodoListRange {
+  page: number;
+  limit: number;
+}

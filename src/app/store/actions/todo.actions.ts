@@ -1,10 +1,13 @@
 import { Action } from '@ngrx/store';
-import { TodoItem } from '../../todolist/todolist.interface';
+import { TodoItem, TodoListRange } from '../../todolist/todolist.interface';
 
 export enum TODO_TYPE {
   GET_ALL = '[TODO] get all',
   GET_ALL_SUCCESS = '[TODO] get all success',
   GET_ALL_ERROR = '[TODO] get all error',
+  GET_WITH_PARAMS = '[TODO] get with params',
+  GET_WITH_PARAMS_SUCCESS = '[TODO] get with params success',
+  GET_WITH_PARAMS_ERROR = '[TODO] get with params error',
   GET_BY_ID = '[TODO] get by id',
   GET_BY_ID_SUCCESS = '[TODO] get by id success',
   CREATE = '[TODO] create',
@@ -59,6 +62,7 @@ export class CompleteSuccessTodoAction implements Action {
 
 export class GetAllTodoAction implements Action {
   readonly type = TODO_TYPE.GET_ALL;
+  constructor(public payload: TodoListRange) {}
 }
 
 export class GetAllSuccessTodoAction implements Action {
@@ -68,6 +72,20 @@ export class GetAllSuccessTodoAction implements Action {
 
 export class GetAllErrorTodoAction implements Action {
   readonly type = TODO_TYPE.GET_ALL_ERROR;
+}
+
+export class GetWithParamsTodoAction implements Action {
+  readonly type = TODO_TYPE.GET_WITH_PARAMS;
+  constructor(public payload: TodoListRange) {}
+}
+
+export class GetWithParamsSuccessTodoAction implements Action {
+  readonly type = TODO_TYPE.GET_WITH_PARAMS_SUCCESS;
+  constructor(public payload: TodoItem[]) {}
+}
+
+export class GetWithParamsErrorTodoAction implements Action {
+  readonly type = TODO_TYPE.GET_WITH_PARAMS_ERROR;
 }
 
 export class GetByIdTodoAction implements Action {
@@ -93,4 +111,7 @@ export type TodoActions =
   | GetAllSuccessTodoAction
   | GetAllErrorTodoAction
   | GetByIdTodoAction
-  | GetByIdSuccessTodoAction;
+  | GetByIdSuccessTodoAction
+  | GetWithParamsTodoAction
+  | GetWithParamsSuccessTodoAction
+  | GetWithParamsErrorTodoAction;

@@ -7,8 +7,10 @@ import { HttpClient } from '@angular/common/http';
 export class TodoListService {
   constructor(private http: HttpClient) {}
 
-  getAll() {
-    return this.http.get<TodoItem[]>(`${config.apiUrl}/todos`);
+  getAll(params?) {
+    return this.http.get<TodoItem[]>(`${config.apiUrl}/todos`, {
+      params,
+    });
   }
 
   getById(id: number) {

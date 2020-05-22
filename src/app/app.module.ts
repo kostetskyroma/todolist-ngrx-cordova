@@ -30,6 +30,7 @@ import { TodolistPipe } from './todolist/todolist.pipe';
 import { TodoItemComponent } from './todo-item/todo-item.component';
 import { AuthEffects } from './store/effects/auth.effects';
 import { DateInterceptor } from './core/interceptors/date.interceptor';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { DateInterceptor } from './core/interceptors/date.interceptor';
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
+    InfiniteScrollModule,
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {

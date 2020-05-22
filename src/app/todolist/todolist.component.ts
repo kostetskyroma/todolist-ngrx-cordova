@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TodoItem } from './todolist.interface';
-import { TodoListService } from './todolist.service';
+import { TodoItem, TodoListRange } from './todolist.interface';
 import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { selectTodos } from '../store/selectors/todo.selectors';
@@ -8,6 +7,7 @@ import {
   CompleteTodoAction,
   DeleteTodoAction,
   GetAllTodoAction,
+  GetWithParamsTodoAction,
 } from '../store/actions/todo.actions';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -18,21 +18,51 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class TodolistComponent implements OnInit {
   public todos$: Observable<TodoItem[]> = this.store$.pipe(select(selectTodos));
+  public infiniteScroll = {
+    throttle: 300,
+    scrollDistance: 0.2,
+    limit: 10,
+    page: 1,
+    scrollWindow: false,
+  };
   public filter = {
     search: '',
     time: 'all',
   };
 
   constructor(
-    private readonly todoListService: TodoListService,
     private readonly store$: Store<TodoItem[]>,
     private readonly route: ActivatedRoute,
     private readonly router: Router
   ) {
-    this.store$.dispatch(new GetAllTodoAction());
+    const params: TodoListRange = {
+      page:
+        +this.route.snapshot.queryParamMap.get('page') ||
+        this.infiniteScroll.page,
+      limit:
+        +this.route.snapshot.queryParamMap.get('limit') ||
+        this.infiniteScroll.limit,
+    };
+    this.store$.dispatch(new GetAllTodoAction(params));
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: params,
+    });
   }
 
   ngOnInit(): void {}
+
+  onScroll() {
+    const params: TodoListRange = {
+      page: +this.route.snapshot.queryParamMap.get('page') + 1,
+      limit: +this.route.snapshot.queryParamMap.get('limit'),
+    };
+    this.store$.dispatch(new GetWithParamsTodoAction(params));
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: params,
+    });
+  }
 
   filterByTime(by: string) {
     this.filter.time = by;

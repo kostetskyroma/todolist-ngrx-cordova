@@ -17,7 +17,7 @@ export class TodolistPipe implements PipeTransform {
     }
     return todos.filter((todo) => {
       return (
-        todo.title.toLowerCase().includes(searchString.toLowerCase()) &&
+        todo?.title?.toLowerCase().includes(searchString?.toLowerCase()) &&
         filterStrategyFn(todo)
       );
     });

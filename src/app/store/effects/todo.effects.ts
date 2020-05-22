@@ -14,22 +14,37 @@ import {
   GetAllSuccessTodoAction,
   GetByIdSuccessTodoAction,
   GetByIdTodoAction,
+  GetWithParamsErrorTodoAction,
+  GetWithParamsSuccessTodoAction,
   TODO_TYPE,
   UpdateSuccessTodoAction,
   UpdateTodoAction,
 } from '../actions/todo.actions';
-import { TodoItem } from '../../todolist/todolist.interface';
+import { TodoItem, TodoListRange } from '../../todolist/todolist.interface';
 
 @Injectable()
 export class TodoEffects {
   @Effect()
   loadTodos$ = this.actions$.pipe(
     ofType(TODO_TYPE.GET_ALL),
-    mergeMap(() =>
-      this.todoListService.getAll().pipe(
+    mergeMap(({ payload }: { payload: TodoListRange }) =>
+      this.todoListService.getAll(payload).pipe(
         map(
           (todos: TodoItem[]) => new GetAllSuccessTodoAction(todos),
           catchError(() => of(new GetAllErrorTodoAction()))
+        )
+      )
+    )
+  );
+
+  @Effect()
+  loadTodosWithParams$ = this.actions$.pipe(
+    ofType(TODO_TYPE.GET_WITH_PARAMS),
+    mergeMap(({ payload }: { payload: TodoListRange }) =>
+      this.todoListService.getAll(payload).pipe(
+        map(
+          (todos: TodoItem[]) => new GetWithParamsSuccessTodoAction(todos),
+          catchError(() => of(new GetWithParamsErrorTodoAction()))
         )
       )
     )

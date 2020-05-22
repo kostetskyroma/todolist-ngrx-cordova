@@ -70,8 +70,12 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
           // ================== Todos =============================================
           // get todos
-          if (request.url.endsWith('/todos') && request.method === 'GET') {
-            return this.getTodos(request);
+          if (
+            (request.urlWithParams.match(/\/todos\?\page=\d\&limit=\d/) ||
+              request.url.endsWith('/todos')) &&
+            request.method === 'GET'
+          ) {
+            return this.getTodosWithParams(request);
           }
 
           // get todo by id
@@ -211,9 +215,19 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     }
   }
 
-  getTodos(request: HttpRequest<any>) {
+  getTodosWithParams(request: HttpRequest<any>) {
     if (request.headers.get('Authorization') === 'Bearer fake-token') {
-      return of(new HttpResponse({ status: 200, body: [...this.todos] }));
+      const page = +request.params.get('page');
+      const limit = +request.params.get('limit');
+      const start = (page - 1) * limit;
+      const end = start + limit;
+      const limitedTodos = [];
+      this.todos.forEach((user, index) => {
+        if (index >= start && index < end) {
+          limitedTodos.push(user);
+        }
+      });
+      return of(new HttpResponse({ status: 200, body: limitedTodos }));
     } else {
       return throwError({
         status: 401,
